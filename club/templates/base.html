@@ -19,8 +19,11 @@
             </div>
             <ul class="nav navbar-nav">
                 <li><a href="{% url 'resourcetype' %}">Resource Types</a></li>
+                <li><a href="{% url 'newResource' %}">Add A New Resource</a></li> 
                 <li><a href="{% url 'getmeeting' %}">Meetings</a></li>
-                <li><a href="{% url 'newMeeting' %}">Add A New Meeting</a></li>        
+                <li><a href="{% url 'newMeeting' %}">Add A New Meeting</a></li>     
+                <li><a href="{% url 'login' %}">Login</a></li>   
+                <li><a href="{% url 'logout' %}">Logout</a></li>   
             </ul>
         </div>
     </nav>
