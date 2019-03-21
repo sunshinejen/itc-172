@@ -1,8 +1,8 @@
+from .forms import MeetingForm, ResourceForm
 from django.urls import reverse
 from django.test import TestCase
 from.models import Meeting, Resource, Event, MeetingMinutes
 # Create your tests here.
-
 
 class MeetingTest(TestCase):
     def test_stringOutputM(self):
@@ -39,3 +39,44 @@ class TestIndex(TestCase):
     def test_view_uses_correct_template(self):
         response = self.client.get(reverse('index'))
         self.assertTemplateUsed(response, 'club/index.html')
+
+#View Meeting Tests 
+class TestGetMeeting(TestCase):
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get('/club/meetings')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('getmeeting'))
+        self.assertEqual(response.status_code, 200)
+        
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse('getmeeting'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'club/meetings.html')
+
+# testing forms
+# valid Form Data
+
+class New_Meeting_Form_Test(TestCase):
+    def test_meetingForm_is_valid(self):
+        form = MeetingForm(data={'meetingtitle': "MeetingTest1", 'meetingdate': "2018-12-17",
+                                'meetingtime': "05:00", 'meetinglocation': "Seattle", 'agenda': "Testing the meeting"})
+        self.assertTrue(form.is_valid())
+
+    def test_UserForm_invalid(self):
+        form = MeetingForm(data={'meetingtitle': "MeetingTest1", 'meetingdate': "2018-12-17",
+                            'meetingtime': "05:00", 'meetinglocation': "Seattle", 'agenda': "Testing the meeting"})
+        self.assertFalse(form.is_valid())
+
+
+class New_Resource_Form_Test(TestCase):
+    def test_resourceForm_is_valid(self):
+        form = ResourceForm(data={'resourcename': "ResourceTest1", 'resourcetype': "Book", 'resourceURL': "https://www.codingforentrepreneurs.com",
+                                'dateentered': "2019-12-17", 'userid': "jennifer", 'resourcedescription': "Testing the new resource"})
+        self.assertTrue(form.is_valid())
+
+    def test_resourceForm_is_invalid(self):
+        form = ResourceForm(data={'resourcename': "ResourceTest1", 'resourcetype': "Book", 'resourceURL': "https://www.codingforentrepreneurs.com",
+                                'dateentered': "2019-12-17", 'userid': "jennifer", 'resourcedescription': "Testing the new resource"})
+        self.assertFalse(form.is_valid())
